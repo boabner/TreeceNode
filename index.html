@@ -5,46 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Usuários Treece Node.JS</title>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
 </head>
-<body style="margin: 25px;">
-<h2>Lista de Usuários</h2>
-<input type="button" value="Listar" id="listar" onclick="getUsuarios()"/>
-<ul id="users">
-</ul>
-<hr/>
-<table>
-    <tr>
-        <td colspan="2">
-            <label for="idUsuario">
-                ID:
-            </label>
-        </td>
-        <td colspan="3">
-            <input type="text" id="idUsuario" size="5"/>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <label for="nomeUsuario">
-                Usuário:
-            </label>
-        </td>
-        <td colspan="3">
-            <input type="text" id="nomeUsuario" size="25"/>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <input type="button" value="Adicionar" id="adicionar" onclick="adicionarUsuario()"/>
-        </td>
-        <td>
-            <input type="button" value="Alterar" id="alterar" onclick="getUsuarios()"/>
-        </td>
-        <td>
-            <input type="button" value="Deletar" id="deletar" onclick="getUsuarios()"/>
-        </td>
-    </tr>
-</table>
+<body>
+<nav class="container-fluid navbar  navbar-expand-lg navbar-dark bg-dark text-white">
+    <h2>Controle de Usuários - Node.JS</h2>
+</nav>
+<br/>
+<div class="container-fluid container">
+    <form id="formCad">
+        <div class="form-row alert alert-success" role="alert">
+            <div id="result"></div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <div class="input-group col-md-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="idUsuarioLabel">ID</span>
+                </div>
+                <input type="text" class="form-control" placeholder="ID" aria-label="idUsuario" id="idUsuario" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="input-group col-md-5">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="nomeUsuarioLabel">Nome</span>
+                </div>
+                <input type="text" class="form-control" placeholder="Nome" aria-label="nomeUsuario" id="nomeUsuario" aria-describedby="basic-addon1">
+            </div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <div class="input-group col-md-6">
+                <input class="btn btn-dark mr-1" type="button" value="Adicionar" id="adicionar" onclick="adicionarUsuario()"/>
+                <input class="btn btn-dark mr-1" type="button" value="Alterar" id="alterar" onclick="atualizarUsuario()"/>
+                <input class="btn btn-dark mr-1" type="button" value="Listar Usuários" id="listar" onclick="getUsuarios()"/>
+                <input class="btn btn-danger mr-1" type="button" value="Deletar" id="deletar" onclick="deletarUsuario()"/>
+            </div>
+        </div>
+        <br/>
+        <div class="form-row">
+            <ul id="users">
+            </ul>
+        </div>
+    </form>
+</div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
 <script>
@@ -53,40 +60,81 @@
             .then(response => criaListaDinamica(response.data))
             .catch(error => console.log(error))
         const criaListaDinamica = ( users ) => {
-            let ulUsers = document.getElementById('users')
+
+            let ulUsers = document.getElementById('users');
 
             users['users'].map( usuario => {
                 let listUsers = document.createElement('li')
-                listUsers.innerHTML = `Nome: ${usuario.name}`
+
+                listUsers.innerHTML = `ID: ${usuario.id} \n, Nome: ${usuario.name}`
                 ulUsers.appendChild(listUsers)
             })
         }
+    }
+
+    function atualizarUsuario() {
+
+        let result = document.getElementById('result')
+        let idUsuario = document.getElementById('idUsuario')
+        let nomeUsuario = document.getElementById('nomeUsuario')
+        let url = "http://localhost:3000/users/" + idUsuario.value;
+
+        let settings = {
+            "url": url,
+            "method": "PUT",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            "data": {
+                "name": nomeUsuario.value,
+                "id": idUsuario.value
+            }
+        };
+
+        $.ajax(settings).done(function (response) {
+            result.innerHTML = response
+        });
+    }
+
+    function deletarUsuario() {
+        let result = document.getElementById('result')
+        let idUsuario = document.getElementById('idUsuario')
+        let url = "http://localhost:3000/users/" + idUsuario.value;
+
+        var settings = {
+            "url": url,
+            "method": "DELETE",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            result.innerHTML = response
+        });
     }
 
     async function adicionarUsuario() {
 
         let nomeUsuario = document.getElementById('nomeUsuario')
         let idUsuario = document.getElementById('idUsuario')
+        let result = document.getElementById('result')
 
-        const config = {
-            method: 'post',
-            url: 'http://localhost:3000/users',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
+        let settings = {
+            "url": "http://localhost:3000/users",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/x-www-form-urlencoded"
             },
-            data : {
-                name: nomeUsuario.value,
-                id: idUsuario.value
+            "data": {
+                "name": nomeUsuario.value,
+                "id": idUsuario.value
             }
         };
 
-        axios(config)
-            .then(function (response) {
-                console.log(JSON.stringify(response.data));
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        $.ajax(settings).done(function (response) {
+            result.innerHTML = response
+        });
 
     }
 </script>

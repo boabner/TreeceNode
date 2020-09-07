@@ -27,7 +27,6 @@ const userRoute = (app) => {
         })
         .post((req,res) => {
             const users = getUsers()
-            console.log(req.body)
             users.push(req.body)
             saveUser(users)
 
@@ -35,21 +34,23 @@ const userRoute = (app) => {
         })
         .put((req,res) => {
             const users = getUsers()
-
-            saveUser(users.map(user => {
-                if (user.id === req.params.id) {
-                    return {
-                        user, req
-                    }
-                }
-                return user
-            }))
+            let pos = 0
+            let i = 0
+            users.forEach(user => {
+                if (user.id === req.params.id)
+                    pos = i
+                i++
+            })
+            users[pos]=req.body;
+            saveUser(users)
             res.status(200).send('Usuário atualizado com sucesso.')
         })
         .delete((req,res) => {
             const users = getUsers()
 
-            saveUser(users.filter(user => user.id !== req.params.id))
+            let users2 = users.filter(user => user.id !== req.params.id)
+
+            saveUser(users2)
 
             res.status(200).send('Usuário deletado')
         })
