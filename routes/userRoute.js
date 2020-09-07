@@ -27,7 +27,7 @@ const userRoute = (app) => {
         })
         .post((req,res) => {
             const users = getUsers()
-
+            console.log(req.body)
             users.push(req.body)
             saveUser(users)
 
