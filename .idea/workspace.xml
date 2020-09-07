@@ -19,12 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e27a181a-ac7e-4ddc-bf28-c062da1aeec3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/userRoute.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/userRoute.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/users.json" beforeDir="false" afterPath="$PROJECT_DIR$/routes/users.json" afterDir="false" />
-    </list>
+    <list default="true" id="e27a181a-ac7e-4ddc-bf28-c062da1aeec3" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +66,7 @@
       <updated>1599486417652</updated>
       <workItem from="1599486419131" duration="157000" />
       <workItem from="1599486710903" duration="8442000" />
-      <workItem from="1599504015567" duration="16845000" />
+      <workItem from="1599504015567" duration="17446000" />
     </task>
     <servers />
   </component>
