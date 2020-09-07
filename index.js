@@ -10,6 +10,6 @@ app.use(cors())
 
 userRoute(app)
 
-app.get('/', (req, res) => res.send('Olá mundo pelo Express'))
+app.get('/', (req, res) => res.send('Projeto Iniciado'))
 
 app.listen(port, () => console.log('Api rodando na porta 3000'))
